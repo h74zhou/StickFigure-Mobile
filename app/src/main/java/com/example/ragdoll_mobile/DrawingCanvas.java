@@ -19,6 +19,7 @@ public class DrawingCanvas extends View {
             switch(e.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     // touch down code
+                    Log.d("herunR: ", "Pressed Position: (" + e.getX() + "," + e.getY() + ")");
                     handleTouchPress(e);
                     break;
 
@@ -55,10 +56,13 @@ public class DrawingCanvas extends View {
     }
 
     public void handleDragEvent(MotionEvent e) {
-        if (interactiveSprite != null) {
+        if (interactiveSprite != null && !interactiveSprite.oval) {
             interactiveSprite.handleDragEvent(e);
             this.invalidate();
-            Log.d("herun: ", "Action Move Invalidate Called");
+        } else if (interactiveSprite != null  && interactiveSprite.oval) {
+            Log.d("herunR: ", "Rotation Called");
+            interactiveSprite.handleRotationEvent(e);
+            this.invalidate();
         }
     }
 

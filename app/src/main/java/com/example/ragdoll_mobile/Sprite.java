@@ -6,8 +6,10 @@ import java.util.Vector;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.PointF;
+import android.graphics.RectF;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.graphics.drawable.*;
 import android.widget.Spinner;
 
 // Sprite Code taken from Jeff Avery Example
@@ -25,6 +27,11 @@ public abstract class Sprite {
     private Matrix transform = new Matrix();          // Our transformation matrix
     protected PointF lastPoint = null;                                 // Last mouse point
     protected InteractionMode interactionMode = InteractionMode.IDLE;   // current state
+    boolean oval;
+    public String bodyPart = "";
+    public PointF pivot = new PointF();
+    public float current_degree = 0;
+    public RectF rect = null;
 
     public Sprite() {
 
@@ -62,16 +69,76 @@ public abstract class Sprite {
     /** Handles Dragging Event*/
     public void handleDragEvent(MotionEvent e) {
         Log.d("herun: ", "Handle Drag Event Called");
-        float newX = e.getX();
-        float newY = e.getY();
         float oldX = lastPoint.x;
         float oldY = lastPoint.y;
+        float newX = e.getX();
+        float newY = e.getY();
+
 
         float x_diff = newX - oldX;
         float y_diff = newY - oldY;
+
+//        for (Sprite sprite : children) {
+//            if (sprite.bodyPart == "head") {
+//                sprite.anchor.x += x_diff;
+//                sprite.anchor.y += y_diff;
+//            }
+//        }
+
+        Log.d("herunR: ", "MOVEEEEEEEEDDDDDDDDD");
+
         transform.postTranslate(x_diff,y_diff);
-        lastPoint = new PointF(newX,newY);
+        lastPoint = new PointF(e.getX(),e.getY());
     }
+
+    /** Handles rotation events */
+    public void handleRotationEvent(MotionEvent e) {
+        Matrix fullTransform = getFullTransform();
+        Matrix inverseTransform = new Matrix();
+        fullTransform.invert(inverseTransform);
+
+        float oldX = lastPoint.x;
+        float oldY = lastPoint.y;
+        float newX = e.getX();
+        float newY = e.getY();
+
+        float[] pts = new float[2];
+        float[] oldpts = new float[2];
+
+        Log.d("herunR: ", "BEFORE INVERSE X, Y VALUE: " + newX + ", " + newY);
+        pts[0] = newX;
+        pts[1] = newY;
+        inverseTransform.mapPoints(pts);
+        newX = pts[0];
+        newY = pts[1];
+        Log.d("herunR: ", "AFTER INVERSE X, Y VALUE: " + newX + ", " + newY);
+
+        oldpts[0] = oldX;
+        oldpts[1] = oldY;
+        inverseTransform.mapPoints(oldpts);
+        oldX = oldpts[0];
+        oldY = oldpts[1];
+
+        float offsetX = newX - pivot.x;
+        float offsetY = newY - pivot.y;
+        float offsetXOld = oldX - pivot.x;
+        float offsetYOld = oldY - pivot.y;
+
+        float degrees1 = (float) Math.atan2(offsetY, offsetX);
+        float degrees2 = (float) Math.atan2(offsetYOld, offsetXOld);
+
+        float rotation = (float) Math.toDegrees(degrees1 - degrees2);
+
+        current_degree += rotation;
+
+        //transform.postTranslate(-pivot.x, -pivot.y);
+        transform.preRotate(rotation, pivot.x, pivot.y);
+        //transform.postTranslate(pivot.x, pivot.y);
+        Log.d("herunR: ", "Pivot is Currently: " + pivot.x + ", " + pivot.y);
+        lastPoint = new PointF(e.getX(),e.getY());
+    }
+
+//    public boolean canRotate()
 
     public void handleMouseUp(MotionEvent e) {
         interactionMode = InteractionMode.IDLE;
@@ -110,8 +177,10 @@ public abstract class Sprite {
      * Returns our local transform
      */
     public Matrix getLocalTransform() {
-        Matrix newMatrix = new Matrix();
-        newMatrix.set(transform);
+        if (transform != null) {
+
+        }
+        Matrix newMatrix = new Matrix(transform);
         return newMatrix;
     }
 
@@ -131,8 +200,9 @@ public abstract class Sprite {
 //        currentAT.concatenate(getFullTransform());
         // currentAT.concatenate(transform);
         //g2.setTransform(currentAT);
-        oldMatrix.preConcat(getFullTransform());
-        canvas.setMatrix(oldMatrix);
+        Matrix newMatrix = canvas.getMatrix();
+        newMatrix.preConcat(getFullTransform());
+        canvas.setMatrix(newMatrix);
 
         // Draw the sprite (delegated to sub-classes)
         //this.drawSprite(g);

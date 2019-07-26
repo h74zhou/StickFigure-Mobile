@@ -9,15 +9,26 @@ import android.graphics.RectF;
 import android.util.Log;
 
 public class RectangleSprite extends Sprite {
-    private RectF rect = null;
 
-    public RectangleSprite(int width, int height) {
+    public float roundEdge;
+
+    public RectangleSprite(int xPosition, int yPosition, int width, int height, float roundEdge, boolean oval_or_not, String body) {
         super();
-        this.initialize(width,height);
+        this.roundEdge = roundEdge;
+        this.oval = oval_or_not;
+        this.bodyPart = body;
+
+        if (body == "head") {
+            this.pivot.x = width/2;
+            this.pivot.y = height;
+        }
+
+        this.initialize(xPosition, yPosition, width,height);
     }
 
-    public void initialize(int width, int height) {
-        rect = new RectF(700, 500, 700+width, 500+height);
+    public void initialize(int xPosition, int yPosition, int width, int height) {
+        rect = new RectF(xPosition, yPosition, xPosition + width, yPosition + height);
+        // rect = new RectF(700, 500, 700+width, 500+height);
     }
 
     public boolean pointInside(PointF p) {
@@ -54,7 +65,13 @@ public class RectangleSprite extends Sprite {
     public void drawSprite(Canvas canvas) {
         Paint paint = new Paint();
         paint.setColor(Color.BLACK);
-        canvas.drawRoundRect(rect, 20.0f, 20.0f, paint);
+        if (oval) {
+            Log.d("herun: ", "DREW OVALLLLLLL!!!!!!!");
+            canvas.drawOval(rect, paint);
+        } else {
+            canvas.drawRoundRect(rect, roundEdge, roundEdge, paint);
+        }
+
     }
 
     public String toString() {
