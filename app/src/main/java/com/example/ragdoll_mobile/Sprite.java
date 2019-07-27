@@ -31,6 +31,8 @@ public abstract class Sprite {
     public String bodyPart = "";
     public PointF pivot = new PointF();
     public float current_degree = 0;
+    public float min_degree;
+    public float max_degree;
     public RectF rect = null;
 
     public Sprite() {
@@ -91,8 +93,7 @@ public abstract class Sprite {
         lastPoint = new PointF(e.getX(),e.getY());
     }
 
-    /** Handles rotation events */
-    public void handleRotationEvent(MotionEvent e) {
+    public boolean canRotate(MotionEvent e) {
         Matrix fullTransform = getFullTransform();
         Matrix inverseTransform = new Matrix();
         fullTransform.invert(inverseTransform);
@@ -105,13 +106,13 @@ public abstract class Sprite {
         float[] pts = new float[2];
         float[] oldpts = new float[2];
 
-        Log.d("herunR: ", "BEFORE INVERSE X, Y VALUE: " + newX + ", " + newY);
+        //Log.d("herunR: ", "BEFORE INVERSE X, Y VALUE: " + newX + ", " + newY);
         pts[0] = newX;
         pts[1] = newY;
         inverseTransform.mapPoints(pts);
         newX = pts[0];
         newY = pts[1];
-        Log.d("herunR: ", "AFTER INVERSE X, Y VALUE: " + newX + ", " + newY);
+        // Log.d("herunR: ", "AFTER INVERSE X, Y VALUE: " + newX + ", " + newY);
 
         oldpts[0] = oldX;
         oldpts[1] = oldY;
@@ -129,16 +130,68 @@ public abstract class Sprite {
 
         float rotation = (float) Math.toDegrees(degrees1 - degrees2);
 
-        current_degree += rotation;
 
-        //transform.postTranslate(-pivot.x, -pivot.y);
-        transform.preRotate(rotation, pivot.x, pivot.y);
-        //transform.postTranslate(pivot.x, pivot.y);
-        Log.d("herunR: ", "Pivot is Currently: " + pivot.x + ", " + pivot.y);
-        lastPoint = new PointF(e.getX(),e.getY());
+        Log.d("herunR: ", "Current Degree is: " + current_degree + rotation);
+
+        if (current_degree + rotation <= min_degree) {
+            return false;
+        } else if (current_degree + rotation >= max_degree) {
+            return false;
+        }
+        return true;
     }
 
-//    public boolean canRotate()
+    /** Handles rotation events */
+    public boolean handleRotationEvent(MotionEvent e) {
+        Matrix fullTransform = getFullTransform();
+        Matrix inverseTransform = new Matrix();
+        fullTransform.invert(inverseTransform);
+
+        float oldX = lastPoint.x;
+        float oldY = lastPoint.y;
+        float newX = e.getX();
+        float newY = e.getY();
+
+        float[] pts = new float[2];
+        float[] oldpts = new float[2];
+
+        //Log.d("herunR: ", "BEFORE INVERSE X, Y VALUE: " + newX + ", " + newY);
+        pts[0] = newX;
+        pts[1] = newY;
+        inverseTransform.mapPoints(pts);
+        newX = pts[0];
+        newY = pts[1];
+        //Log.d("herunR: ", "AFTER INVERSE X, Y VALUE: " + newX + ", " + newY);
+
+        oldpts[0] = oldX;
+        oldpts[1] = oldY;
+        inverseTransform.mapPoints(oldpts);
+        oldX = oldpts[0];
+        oldY = oldpts[1];
+
+        float offsetX = newX - pivot.x;
+        float offsetY = newY - pivot.y;
+        float offsetXOld = oldX - pivot.x;
+        float offsetYOld = oldY - pivot.y;
+
+        float degrees1 = (float) Math.atan2(offsetY, offsetX);
+        float degrees2 = (float) Math.atan2(offsetYOld, offsetXOld);
+
+        float rotation = (float) Math.toDegrees(degrees1 - degrees2);
+
+
+        Log.d("herunR: ", "Current Degree is: " + current_degree);
+
+        //transform.postTranslate(-pivot.x, -pivot.y);
+        if (current_degree + rotation >= this.min_degree && current_degree + rotation <= this.max_degree) {
+            current_degree += rotation;
+            transform.preRotate(rotation, pivot.x, pivot.y);
+            lastPoint = new PointF(e.getX(),e.getY());
+            return true;
+        }
+        lastPoint = new PointF(e.getX(),e.getY());
+        return false;
+    }
 
     public void handleMouseUp(MotionEvent e) {
         interactionMode = InteractionMode.IDLE;

@@ -74,6 +74,10 @@ public class MainActivity extends AppCompatActivity {
         rightFootMatrix.postTranslate(20, 190);
         rightFoot.transform(rightFootMatrix);
 
+        // Set Min/Max Rotation for head
+        head.max_degree = 25;
+        head.min_degree = -25;
+
         torso.addChild(head);
         torso.addChild(leftUpperLeg);
         torso.addChild(rightUpperLeg);

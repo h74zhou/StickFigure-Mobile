@@ -60,9 +60,15 @@ public class DrawingCanvas extends View {
             interactiveSprite.handleDragEvent(e);
             this.invalidate();
         } else if (interactiveSprite != null  && interactiveSprite.oval) {
-            Log.d("herunR: ", "Rotation Called");
-            interactiveSprite.handleRotationEvent(e);
-            this.invalidate();
+            //Log.d("herunR: ", "Rotation Called");
+            if (interactiveSprite.handleRotationEvent(e)) {
+                this.invalidate();
+            }
+//            if (interactiveSprite.canRotate(e)) {
+//                interactiveSprite.handleRotationEvent(e);
+//                this.invalidate();
+//            }
+
         }
     }
 
