@@ -131,6 +131,8 @@ public class DrawingCanvas extends View {
                 } else if (interactiveSprite.bodyPart == "leftupperleg" ||
                             interactiveSprite.bodyPart == "rightupperleg") {
                     interactiveSprite.handleUpperScale(scaleX, scaleY);
+                } else if (interactiveSprite.bodyPart == "dogtail") {
+                    interactiveSprite.handleDogScale(scaleX, scaleY);
                 }
                 invalidate();
             }

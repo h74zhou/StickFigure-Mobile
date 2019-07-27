@@ -51,6 +51,18 @@ public class RectangleSprite extends Sprite {
         } else if (body == "righthand") {
             this.pivot.x = 0;
             this.pivot.y = height/2;
+        } else if (body == "dogfrontleg") {
+            this.pivot.x = width/2;
+            this.pivot.y = 0;
+        } else if (body == "dogbackleg") {
+            this.pivot.x = width/2;
+            this.pivot.y = 0;
+        } else if (body == "dogtail") {
+            this.pivot.x = 0;
+            this.pivot.y = height/2;
+        } else if (body == "doghead") {
+            this.pivot.x = width;
+            this.pivot.y = height / 2;
         }
 
         this.initialize(xPosition, yPosition, width,height);
@@ -77,12 +89,9 @@ public class RectangleSprite extends Sprite {
         float[] pts = new float[2];
         pts[0] = newPoint.x;
         pts[1] = newPoint.y;
-//        inverseTransform.transform(newPoint, newPoint);
         inverseTransform.mapPoints(pts);
         newPoint.x = pts[0];
         newPoint.y = pts[1];
-//        Log.d("herun: ", "Mouse X Point (TRANSFORMED): " + newPoint.x);
-//        Log.d("herun: ", "Mouse Y Point (TRANSFORMED): " + newPoint.y);
 
         if (rect.contains(newPoint.x, newPoint.y)) {
             Log.d("herun: ", "THIS INVERSION WORKEDDDDD!");

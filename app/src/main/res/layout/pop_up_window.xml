@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fe5b5c"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="373dp"
+        android:text="Ragdoll-Mobile"
+        android:textSize="180dp" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="1087dp"
+        android:layout_height="wrap_content"
+        android:text="Created By: Herun Zhou (ID: 20608192)"
+        android:textSize="100dp" />
+
+</LinearLayout>

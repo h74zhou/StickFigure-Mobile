@@ -2,6 +2,7 @@ package com.example.ragdoll_mobile;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Matrix;
 import android.os.Bundle;
 
@@ -19,13 +20,16 @@ import android.view.View;
 public class MainActivity extends AppCompatActivity {
 
     public DrawingCanvas canvas;
+    public boolean isHuman;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         canvas = new DrawingCanvas(this);
-        canvas.addSprite(this.makeSprite());
+        canvas.addSprite(this.makeHuman());
+        isHuman = true;
+        //canvas.addSprite(this.makeDog());
         setContentView(canvas);
     }
 
@@ -41,15 +45,83 @@ public class MainActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.reset) {
             Log.d("herunR:: ", "reset button pressed");
             canvas.sprites.clear();
-            canvas.addSprite(this.makeSprite());
+
+            if (isHuman) {
+                canvas.addSprite(this.makeHuman());
+            } else {
+                canvas.addSprite(this.makeDog());
+            }
+            setContentView(canvas);
+            return true;
+        } else if (item.getItemId() == R.id.about) {
+            Intent intent = new Intent(MainActivity.this, About.class);
+            startActivity(intent);
+        } else if (item.getItemId() == R.id.ragdolls) {
+            canvas.sprites.clear();
+            if (isHuman) {
+                isHuman = false;
+                canvas.addSprite(this.makeDog());
+            } else {
+                isHuman = true;
+                canvas.addSprite(this.makeHuman());
+            }
             setContentView(canvas);
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    private static Sprite makeDog() {
+        Sprite dogTorso = new RectangleSprite(0,0, 350, 200, 20.0F, false, "dogtorso");
+        Sprite dogHead = new RectangleSprite(0,0, 200, 200, 20.0F, true, "doghead");
+        Sprite dogFrontLeg = new RectangleSprite(0,0, 50, 125, 20.0F, true, "dogfrontleg");
+        Sprite dogBackLeg = new RectangleSprite(0,0, 50, 125, 20.0F, true, "dogbackleg");
+        Sprite dogTail = new RectangleSprite(0,0, 200, 50,20.0F, true, "dogtail");
 
-    private static Sprite makeSprite() {
+        // Translate Torso
+        Matrix torsoMatrix = new Matrix();
+        torsoMatrix.postTranslate(1000, 500);
+        dogTorso.transform(torsoMatrix);
+
+        // Translate Head
+        Matrix headMatrix = new Matrix();
+        headMatrix.postTranslate(-200, 0);
+        dogHead.transform(headMatrix);
+
+        // Translate Front Leg
+        Matrix frontLegMatrix = new Matrix();
+        frontLegMatrix.postTranslate(10, 200);
+        dogFrontLeg.transform(frontLegMatrix);
+
+        // Translate Back Leg
+        Matrix backLegMatrix = new Matrix();
+        backLegMatrix.postTranslate(290, 200);
+        dogBackLeg.transform(backLegMatrix);
+
+        // Translate Tail
+        Matrix tailMatrix = new Matrix();
+        tailMatrix.postTranslate(350, 0);
+        dogTail.transform(tailMatrix);
+
+        // Set Max Rotations
+        dogFrontLeg.min_degree = -50;
+        dogFrontLeg.max_degree = 50;
+        dogBackLeg.min_degree = -50;
+        dogBackLeg.max_degree = 50;
+        dogTail.min_degree = -90;
+        dogTail.max_degree = 50;
+        dogHead.min_degree = -30;
+        dogHead.max_degree = 30;
+
+        dogTorso.addChild(dogHead);
+        dogTorso.addChild(dogFrontLeg);
+        dogTorso.addChild(dogBackLeg);
+        dogTorso.addChild(dogTail);
+        return dogTorso;
+
+    }
+
+    private static Sprite makeHuman() {
         // Define All The Sprites
         Sprite torso = new RectangleSprite(0, 0, 200, 350, 20.0F, false, "torso");
         Sprite head = new RectangleSprite(0, 0, 150, 200, 200.0F, true, "head");

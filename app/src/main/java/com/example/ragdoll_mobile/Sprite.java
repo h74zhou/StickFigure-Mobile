@@ -70,6 +70,11 @@ public abstract class Sprite {
         lastPoint = new PointF(currentX, currentY);
     }
 
+    public void handleDogScale(float scaleX, float scaleY) {
+        float oldRectRight = this.rect.right;
+        this.rect.right = this.rect.right * scaleX;
+    }
+
     /** Handle Scaling*/
     public void handleLowerScale(float scaleX, float scaleY) {
         float oldRectBottom = this.rect.bottom;
