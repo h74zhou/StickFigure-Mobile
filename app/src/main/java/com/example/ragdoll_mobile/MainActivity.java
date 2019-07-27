@@ -37,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
         Sprite rightUpperArm = new RectangleSprite(0,0, 200, 50, 20.0F, true,"rightupperarm");
         Sprite leftLowerArm = new RectangleSprite(0,0, 175, 50, 20.0F, true,"leftlowerarm");
         Sprite rightLowerArm = new RectangleSprite(0,0, 175, 50, 20.0F, true,"rightlowerarm");
+        Sprite leftHand = new RectangleSprite(0, 0, 50, 50, 20.0F, true, "lefthand");;
+        Sprite rightHand = new RectangleSprite(0, 0, 50, 50, 20.0F, true, "righthand");;
 
         // Translate Torso
         Matrix torsoMatrix = new Matrix();
@@ -47,6 +49,16 @@ public class MainActivity extends AppCompatActivity {
         Matrix headMatrix = new Matrix();
         headMatrix.postTranslate(30, -200);
         head.transform(headMatrix);
+
+        // Translate Left hand
+        Matrix leftHandMatrix = new Matrix();
+        leftHandMatrix.postTranslate(-50, 0);
+        leftHand.transform(leftHandMatrix);
+
+        // Translate Right hand
+        Matrix rightHandMatrix = new Matrix();
+        rightHandMatrix.postTranslate(175, 0);
+        rightHand.transform(rightHandMatrix);
 
         // Translate Left Upper Arm
         Matrix leftUpperArmMatrix = new Matrix();
@@ -118,6 +130,10 @@ public class MainActivity extends AppCompatActivity {
         leftLowerArm.max_degree = 135;
         rightLowerArm.min_degree = -135;
         rightLowerArm.max_degree = 135;
+        leftHand.min_degree = -35;
+        leftHand.max_degree = 35;
+        rightHand.min_degree = -35;
+        rightHand.max_degree = 35;
         //leftUpperArm.min_degree = -360;
         //leftUpperArm.max_degree = 360;
 
@@ -132,6 +148,9 @@ public class MainActivity extends AppCompatActivity {
         leftUpperArm.addChild(leftLowerArm);
         rightUpperArm.addChild(rightLowerArm);
 
+        // Define hand Relationship
+        leftLowerArm.addChild(leftHand);
+        rightLowerArm.addChild(rightHand);
 
         // Define Upper Leg Children
         leftUpperLeg.addChild(leftLowerLeg);

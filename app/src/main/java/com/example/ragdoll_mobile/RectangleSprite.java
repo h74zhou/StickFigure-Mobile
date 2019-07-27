@@ -43,6 +43,12 @@ public class RectangleSprite extends Sprite {
         } else if (body == "rightlowerarm") {
             this.pivot.x = 0;
             this.pivot.y = height/2;
+        } else if (body == "lefthand") {
+            this.pivot.x = width;
+            this.pivot.y = height/2;
+        } else if (body == "righthand") {
+            this.pivot.x = 0;
+            this.pivot.y = height/2;
         }
 
         this.initialize(xPosition, yPosition, width,height);
