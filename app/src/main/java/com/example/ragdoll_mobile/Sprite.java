@@ -79,7 +79,6 @@ public abstract class Sprite {
         for (Sprite sprite : children) {
             sprite.transform.postTranslate(0, scaleFactor);
         }
-
     }
 
     public void handleUpperScale(float scaleX, float scaleY) {
@@ -106,7 +105,7 @@ public abstract class Sprite {
 
     /** Handles Dragging Event*/
     public void handleDragEvent(MotionEvent e) {
-        Log.d("herun: ", "Handle Drag Event Called");
+        // .d("herun: ", "Handle Drag Event Called");
         float oldX = lastPoint.x;
         float oldY = lastPoint.y;
         float newX = e.getX();
@@ -116,65 +115,10 @@ public abstract class Sprite {
         float x_diff = newX - oldX;
         float y_diff = newY - oldY;
 
-//        for (Sprite sprite : children) {
-//            if (sprite.bodyPart == "head") {
-//                sprite.anchor.x += x_diff;
-//                sprite.anchor.y += y_diff;
-//            }
-//        }
-
-        Log.d("herunR: ", "MOVEEEEEEEEDDDDDDDDD");
+        //Log.d("herunR: ", "MOVEEEEEEEEDDDDDDDDD");
 
         transform.postTranslate(x_diff,y_diff);
         lastPoint = new PointF(e.getX(),e.getY());
-    }
-
-    public boolean canRotate(MotionEvent e) {
-        Matrix fullTransform = getFullTransform();
-        Matrix inverseTransform = new Matrix();
-        fullTransform.invert(inverseTransform);
-
-        float oldX = lastPoint.x;
-        float oldY = lastPoint.y;
-        float newX = e.getX();
-        float newY = e.getY();
-
-        float[] pts = new float[2];
-        float[] oldpts = new float[2];
-
-        //Log.d("herunR: ", "BEFORE INVERSE X, Y VALUE: " + newX + ", " + newY);
-        pts[0] = newX;
-        pts[1] = newY;
-        inverseTransform.mapPoints(pts);
-        newX = pts[0];
-        newY = pts[1];
-        // Log.d("herunR: ", "AFTER INVERSE X, Y VALUE: " + newX + ", " + newY);
-
-        oldpts[0] = oldX;
-        oldpts[1] = oldY;
-        inverseTransform.mapPoints(oldpts);
-        oldX = oldpts[0];
-        oldY = oldpts[1];
-
-        float offsetX = newX - pivot.x;
-        float offsetY = newY - pivot.y;
-        float offsetXOld = oldX - pivot.x;
-        float offsetYOld = oldY - pivot.y;
-
-        float degrees1 = (float) Math.atan2(offsetY, offsetX);
-        float degrees2 = (float) Math.atan2(offsetYOld, offsetXOld);
-
-        float rotation = (float) Math.toDegrees(degrees1 - degrees2);
-
-
-        // Log.d("herunR: ", "Current Degree is: " + current_degree + rotation);
-
-        if (current_degree + rotation <= min_degree) {
-            return false;
-        } else if (current_degree + rotation >= max_degree) {
-            return false;
-        }
-        return true;
     }
 
     /** Handles rotation events */
@@ -212,12 +156,7 @@ public abstract class Sprite {
 
         float degrees1 = (float) Math.atan2(offsetY, offsetX);
         float degrees2 = (float) Math.atan2(offsetYOld, offsetXOld);
-
         float rotation = (float) Math.toDegrees(degrees1 - degrees2);
-
-
-        //Log.d("herunR: ", "Current Degree is: " + current_degree);
-
 
         if (this.bodyPart == "leftupperarm" || this.bodyPart == "rightupperarm") {
             current_degree += rotation;
@@ -286,21 +225,13 @@ public abstract class Sprite {
     }
 
     public void draw(Canvas canvas) {
-        // Set to our transform
-        // Graphics2D g2 = (Graphics2D)g;
-        // AffineTransform currentAT = g.getTransform();
+        // Set Canvas Matrix
         Matrix oldMatrix = canvas.getMatrix();
-
-//        currentAT.concatenate(getFullTransform());
-        // currentAT.concatenate(transform);
-        //g2.setTransform(currentAT);
         Matrix newMatrix = canvas.getMatrix();
         newMatrix.preConcat(getFullTransform());
         canvas.setMatrix(newMatrix);
 
-        // Draw the sprite (delegated to sub-classes)
-        //this.drawSprite(g);
-        this.drawSprite(canvas);
+        this.drawSprite(canvas); // Draw sprite
 
         // Restore original transform
         canvas.setMatrix(oldMatrix);

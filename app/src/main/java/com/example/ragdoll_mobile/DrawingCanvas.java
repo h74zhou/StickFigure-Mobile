@@ -12,7 +12,7 @@ import java.util.Vector;
 
 
 public class DrawingCanvas extends View {
-    private Vector<Sprite> sprites = new Vector<Sprite>(); // All sprites we're managing
+    public Vector<Sprite> sprites = new Vector<Sprite>(); // All sprites we're managing
     private Sprite interactiveSprite = null; // Sprite with which user is interacting
 
     public ScaleGestureDetector scaleGestureDetector;

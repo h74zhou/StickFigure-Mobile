@@ -9,19 +9,45 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 
 
 public class MainActivity extends AppCompatActivity {
 
+    public DrawingCanvas canvas;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        DrawingCanvas canvas = new DrawingCanvas(this);
+        canvas = new DrawingCanvas(this);
         canvas.addSprite(this.makeSprite());
         setContentView(canvas);
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.top_menu, menu);
+        return true;
+    }
+
+    @Override
+    public  boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.reset) {
+            Log.d("herunR:: ", "reset button pressed");
+            canvas.sprites.clear();
+            canvas.addSprite(this.makeSprite());
+            setContentView(canvas);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
     private static Sprite makeSprite() {
         // Define All The Sprites
