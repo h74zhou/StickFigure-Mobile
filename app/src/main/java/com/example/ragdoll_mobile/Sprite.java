@@ -34,6 +34,8 @@ public abstract class Sprite {
     public float min_degree;
     public float max_degree;
     public RectF rect = null;
+    public float height;
+    public float width;
 
     public Sprite() {
 
@@ -66,6 +68,40 @@ public abstract class Sprite {
         float currentX = e.getX();
         float currentY = e.getY();
         lastPoint = new PointF(currentX, currentY);
+    }
+
+    /** Handle Scaling*/
+    public void handleLowerScale(float scaleX, float scaleY) {
+        float oldRectBottom = this.rect.bottom;
+        this.rect.bottom = this.rect.bottom * scaleY;
+        float scaleFactor = this.rect.bottom - oldRectBottom;
+
+        for (Sprite sprite : children) {
+            sprite.transform.postTranslate(0, scaleFactor);
+        }
+
+    }
+
+    public void handleUpperScale(float scaleX, float scaleY) {
+        float oldRectBottom = this.rect.bottom;
+        this.rect.bottom = this.rect.bottom * scaleY;
+        float scaleFactor = this.rect.bottom - oldRectBottom;
+
+        // Translate everything
+        for (Sprite sprite : children) {
+            sprite.transform.postTranslate(0, scaleFactor);
+        }
+
+        // Adjust lower leg height
+        for (Sprite sprite : children) {
+            float oldLowerLegBottom = sprite.rect.bottom;
+            sprite.rect.bottom = sprite.rect.bottom * scaleY;
+            float lowerScaleFactor = sprite.rect.bottom - oldLowerLegBottom;
+
+            // Adjust Feet Translation
+            sprite.children.firstElement().transform.postTranslate(0, lowerScaleFactor);
+        }
+
     }
 
     /** Handles Dragging Event*/
@@ -131,7 +167,7 @@ public abstract class Sprite {
         float rotation = (float) Math.toDegrees(degrees1 - degrees2);
 
 
-        Log.d("herunR: ", "Current Degree is: " + current_degree + rotation);
+        // Log.d("herunR: ", "Current Degree is: " + current_degree + rotation);
 
         if (current_degree + rotation <= min_degree) {
             return false;
@@ -180,7 +216,7 @@ public abstract class Sprite {
         float rotation = (float) Math.toDegrees(degrees1 - degrees2);
 
 
-        Log.d("herunR: ", "Current Degree is: " + current_degree);
+        //Log.d("herunR: ", "Current Degree is: " + current_degree);
 
 
         if (this.bodyPart == "leftupperarm" || this.bodyPart == "rightupperarm") {

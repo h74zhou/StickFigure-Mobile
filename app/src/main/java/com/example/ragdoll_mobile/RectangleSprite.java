@@ -17,6 +17,8 @@ public class RectangleSprite extends Sprite {
         this.roundEdge = roundEdge;
         this.oval = oval_or_not;
         this.bodyPart = body;
+        this.width = width;
+        this.height = height;
 
         if (body == "head") {
             this.pivot.x = width/2;
