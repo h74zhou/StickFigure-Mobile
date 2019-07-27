@@ -21,6 +21,28 @@ public class RectangleSprite extends Sprite {
         if (body == "head") {
             this.pivot.x = width/2;
             this.pivot.y = height;
+        } else if (body == "leftfoot") {
+            this.pivot.x = width;
+            this.pivot.y = height/2;
+        } else if (body == "leftupperleg" || body == "rightupperleg"||
+                   body == "leftlowerleg" || body == "rightlowerleg") {
+            this.pivot.x = width/2;
+            this.pivot.y = 0;
+        } else if (body == "rightfoot") {
+            this.pivot.x = 0;
+            this.pivot.y = height/2;
+        } else if (body == "leftupperarm") {
+            this.pivot.x = width;
+            this.pivot.y = height/2;
+        } else if (body == "rightupperarm") {
+            this.pivot.x = 0;
+            this.pivot.y = height/2;
+        } else if (body == "leftlowerarm") {
+            this.pivot.x = width;
+            this.pivot.y = height/2;
+        } else if (body == "rightlowerarm") {
+            this.pivot.x = 0;
+            this.pivot.y = height/2;
         }
 
         this.initialize(xPosition, yPosition, width,height);

@@ -33,6 +33,10 @@ public class MainActivity extends AppCompatActivity {
         Sprite rightLowerLeg = new RectangleSprite(0, 0, 50, 200, 20.0F, true, "rightlowerleg");
         Sprite leftFoot = new RectangleSprite(0, 0, 80, 35, 20.0F, true, "leftfoot");
         Sprite rightFoot = new RectangleSprite(0, 0, 80, 35, 20.0F, true, "rightfoot");
+        Sprite leftUpperArm = new RectangleSprite(0,0, 200, 50, 20.0F, true,"leftupperarm");
+        Sprite rightUpperArm = new RectangleSprite(0,0, 200, 50, 20.0F, true,"rightupperarm");
+        Sprite leftLowerArm = new RectangleSprite(0,0, 175, 50, 20.0F, true,"leftlowerarm");
+        Sprite rightLowerArm = new RectangleSprite(0,0, 175, 50, 20.0F, true,"rightlowerarm");
 
         // Translate Torso
         Matrix torsoMatrix = new Matrix();
@@ -43,6 +47,26 @@ public class MainActivity extends AppCompatActivity {
         Matrix headMatrix = new Matrix();
         headMatrix.postTranslate(30, -200);
         head.transform(headMatrix);
+
+        // Translate Left Upper Arm
+        Matrix leftUpperArmMatrix = new Matrix();
+        leftUpperArmMatrix.postTranslate(-200, 0);
+        leftUpperArm.transform(leftUpperArmMatrix);
+
+        // Translate Right Upper Arm
+        Matrix rightUpperArmMatrix = new Matrix();
+        rightUpperArmMatrix.postTranslate(200, 0);
+        rightUpperArm.transform(rightUpperArmMatrix);
+
+        // Translate Left Lower Arm
+        Matrix leftLowerArmMatrix = new Matrix();
+        leftLowerArmMatrix.postTranslate(-175, 0);
+        leftLowerArm.transform(leftLowerArmMatrix);
+
+        // Translate Right Lower Arm
+        Matrix rightLowerArmMatrix = new Matrix();
+        rightLowerArmMatrix.postTranslate(200, 0);
+        rightLowerArm.transform(rightLowerArmMatrix);
 
         // Translate Left Upper Leg
         Matrix leftUpperLegMatrix = new Matrix();
@@ -74,13 +98,42 @@ public class MainActivity extends AppCompatActivity {
         rightFootMatrix.postTranslate(20, 190);
         rightFoot.transform(rightFootMatrix);
 
-        // Set Min/Max Rotation for head
-        head.max_degree = 25;
-        head.min_degree = -25;
 
+        // Set Min/Max Rotation for all body parts
+        head.max_degree = 50;
+        head.min_degree = -50;
+        leftUpperLeg.min_degree = -90;
+        leftUpperLeg.max_degree = 90;
+        rightUpperLeg.min_degree = -90;
+        rightUpperLeg.max_degree = 90;
+        leftLowerLeg.min_degree = -90;
+        leftLowerLeg.max_degree = 90;
+        rightLowerLeg.min_degree = -90;
+        rightLowerLeg.max_degree = 90;
+        leftFoot.min_degree = -35;
+        leftFoot.max_degree = 35;
+        rightFoot.max_degree = 35;
+        rightFoot.min_degree = -35;
+        leftLowerArm.min_degree = -135;
+        leftLowerArm.max_degree = 135;
+        rightLowerArm.min_degree = -135;
+        rightLowerArm.max_degree = 135;
+        //leftUpperArm.min_degree = -360;
+        //leftUpperArm.max_degree = 360;
+
+        // Define Torso's children
         torso.addChild(head);
+        torso.addChild(leftUpperArm);
+        torso.addChild(rightUpperArm);
         torso.addChild(leftUpperLeg);
         torso.addChild(rightUpperLeg);
+
+        // Define Upper Arm Children
+        leftUpperArm.addChild(leftLowerArm);
+        rightUpperArm.addChild(rightLowerArm);
+
+
+        // Define Upper Leg Children
         leftUpperLeg.addChild(leftLowerLeg);
         rightUpperLeg.addChild(rightLowerLeg);
         leftLowerLeg.addChild(leftFoot);

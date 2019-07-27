@@ -182,8 +182,13 @@ public abstract class Sprite {
 
         Log.d("herunR: ", "Current Degree is: " + current_degree);
 
-        //transform.postTranslate(-pivot.x, -pivot.y);
-        if (current_degree + rotation >= this.min_degree && current_degree + rotation <= this.max_degree) {
+
+        if (this.bodyPart == "leftupperarm" || this.bodyPart == "rightupperarm") {
+            current_degree += rotation;
+            transform.preRotate(rotation, pivot.x, pivot.y);
+            lastPoint = new PointF(e.getX(),e.getY());
+            return true;
+        } else if (current_degree + rotation >= this.min_degree && current_degree + rotation <= this.max_degree) {
             current_degree += rotation;
             transform.preRotate(rotation, pivot.x, pivot.y);
             lastPoint = new PointF(e.getX(),e.getY());
