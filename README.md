@@ -1,8 +1,8 @@
-# Ragdoll Android Mobile Application
+# StickFigure Matrix Manipulations Android Game
 
 ### Introduction
 
-This project was made for the Final Assignment of CS349 (User Interfaces) Spring 2019 term. All features required were implemented. The app demonstrates matrix movement transformations in the form of a ragdoll. Users can transform the human ragdoll by translating, rotating and scaling its limbs through direct manipulation.
+This project was made for the Final Assignment of CS349 (User Interfaces) Spring 2019 term. All features required were implemented. The app demonstrates matrix movement transformations in the form of a ragdoll. Users can transform the human ragdoll by translating, rotating and scaling its limbs through direct manipulation (point and drag). **The project received a 100% final evaluation!**
 
 ### Technical Requirements
 
@@ -11,6 +11,11 @@ There are 3 menu bar items. "RESET" returns the doll to its starting size and po
 ```
 app-debug.apk
 ```
+
+### Screenshots
+
+![Alt text](/stickGameSS.png?raw=true "in-game screenshot")
+
 
 ### Bonus Feature
 
