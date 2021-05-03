@@ -19,6 +19,6 @@ app-debug.apk
 
 ### Bonus Feature
 
-The third menu bar item is the "SWITCH RAGDOLL" button. This switches the human ragdoll to a "dog" ragdoll (and vice versa). This ragdoll was meant to fulfill the "multiple ragdolls" requirement for this assignment. The dog has 5 body parts: head, torso, front leg, back leg and tail. The head, legs and tail can be rotated. The torso can be dragged and translated. The tail can also be scaled. 
+The third menu bar item is the "SWITCH RAGDOLL" button. This switches the human ragdoll to a "dog" ragdoll (and vice versa). The dog has 5 body parts: head, torso, front leg, back leg and tail. The head, legs and tail can be rotated. The torso can be dragged and translated. The tail can also be scaled. 
 
 ![Alt text](/dogFigureSS.png?raw=true "dog figure screenshot")
