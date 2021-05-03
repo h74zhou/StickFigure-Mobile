@@ -2,7 +2,7 @@
 
 ### Introduction
 
-This project was made for the Final Assignment of CS349 (User Interfaces) Spring 2019 term. All features required were implemented. The app demonstrates matrix movement transformations in the form of a ragdoll. Users can transform the human ragdoll by translating, rotating and scaling its limbs through direct manipulation (point and drag). **The project received a 100% final evaluation!**
+The android game demonstrates matrix movement transformations in the form of a ragdoll. Users can transform the human ragdoll by translating, rotating and scaling its limbs through direct manipulation (point and drag).
 
 ### Technical Requirements
 
